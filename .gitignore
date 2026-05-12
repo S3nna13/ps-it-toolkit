@@ -1,0 +1,14 @@
+# PowerShell
+*.log
+*.ps1~
+*.pss
+
+# OS
+.DS_Store
+Thumbs.db
+
+# RMM / local logs
+C:\Logs\
+
+# VS Code
+.vscode/
