@@ -183,7 +183,8 @@ try {
 #region 7. Verify connectivity
 Write-Log "--- Verifying basic connectivity ---"
 try {
-    $ping = Test-Connection -ComputerName "8.8.8.8" -Count 2 -ErrorAction SilentlyContinue
+    $connectivityHost = "8.8.8.8"
+    $ping = Test-Connection -ComputerName $connectivityHost -Count 2 -ErrorAction SilentlyContinue
     if ($ping) {
         $avg = [Math]::Round(($ping.ResponseTime | Measure-Object -Average).Average, 1)
         Write-Log "Connectivity verified — 8.8.8.8 reachable ($avg ms avg)." "OK"
