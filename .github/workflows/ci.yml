@@ -26,7 +26,7 @@ jobs:
           if ($results) {
             Write-Host "::error::PSScriptAnalyzer found $($results.Count) error(s)"
             $results | ForEach-Object {
-              Write-Host "::$([string]$_.Severity.ToLower()):: $($_.ScriptName):$($_.Line) – $($_.Message)"
+              Write-Host "::$($_.Severity.ToString().ToLower()):: $($_.ScriptName):$($_.Line) – $($_.Message)"
             }
             exit 1
           }
