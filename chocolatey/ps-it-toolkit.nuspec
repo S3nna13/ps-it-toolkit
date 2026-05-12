@@ -1,0 +1,46 @@
+spec {
+  id          = 'ps-it-toolkit'
+  version     = '1.0.0'
+  title       = 'ps-it-toolkit'
+  authors     = 'S3nna13'
+  projectUrl  = 'https://github.com/S3nna13/ps-it-toolkit'
+  packageSourceUrl = 'https://github.com/S3nna13/ps-it-toolkit'
+  licenseUrl  = 'https://github.com/S3nna13/ps-it-toolkit/blob/main/LICENSE'
+  issueTrackerUrl = 'https://github.com/S3nna13/ps-it-toolkit/issues'
+  summary     = 'Enterprise IT automation scripts for RMM deployment on Windows 10/11'
+  description = @'
+# ps-it-toolkit
+
+Enterprise IT automation scripts for RMM deployment on Windows 10/11.
+
+A curated collection of production-ready PowerShell scripts covering Windows repair, MDM
+Autopilot lifecycle management, Microsoft 365 token fatigue, system time synchronization,
+automated OS/Dell firmware updates, network diagnostics, backup verification, and more.
+
+## Scripts
+
+| Script | Description |
+|--------|-------------|
+| Invoke-AutopilotReenroll | Removes MDM/Autopilot enrollment and triggers fresh enrollment |
+| Invoke-WindowsRepair | 3-tier Windows repair (quick/network/full) |
+| Clear-Office365Tokens | Clears ADAL/MSAL token cache and Credential Manager entries |
+| Update-WindowsAndDell | PSWindowsUpdate + Dell Command Update in parallel |
+| Sync-SystemTime | NTP sync with offset validation < 2s |
+| Invoke-NetworkDiag | Comprehensive network diagnostic suite |
+| Test-BackupStatus | Verifies Windows backup, VSS writers, and File History |
+| Invoke-IntuneRemediation | Triggers Intune proactive remediation scripts |
+| Clear-PrintSpooler | Clears print queue and resets spooler service |
+| Invoke-DiskCleanup | Configurable cleanup of temp files, caches, and logs |
+| Test-ServiceHealth | Checks critical Windows service status and dependencies |
+| Reset-NetworkAdapter | Disables/re-enables adapter with ARP flush and DHCP renew |
+
+## Requirements
+
+- PowerShell 5.1+
+- Windows 10 or Windows 11
+- Local Administrator rights
+'@
+  tags        = 'powershell automation it-toolkit rmm windows repair networkintune backup
+  maintainer  = 'S3nna13'
+  dependencies = {}
+}

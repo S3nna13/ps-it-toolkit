@@ -1,0 +1,66 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    name: Create Release
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Create zip
+        shell: pwsh
+        run: |
+          $tag = $env:GITHUB_REF_NAME
+          Compress-Archive -Path scripts/*, docs/*, LICENSE, README.md -DestinationPath "ps-it-toolkit-$tag.zip" -Force
+          Write-Host "Created ps-it-toolkit-$tag.zip"
+
+      - name: Create changelog from commits
+        id: changelog
+        run: |
+          $tag = $env:GITHUB_REF_NAME
+          $body = @"
+          ## ps-it-toolkit $tag
+
+          **Installation**
+
+          1. Download the zip from this release
+          2. Unblock: `Unblock-File -Path .\ps-it-toolkit.zip`
+          3. Extract to `C:\Program Files\ps-it-toolkit`
+          4. Set execution policy: `Set-ExecutionPolicy -Scope LocalMachine RemoteSigned`
+          5. Run: `.\scripts\Invoke-WindowsRepair.ps1 -Silent`
+
+          Or install via [Chocolatey](#) (coming soon):
+          `choco install ps-it-toolkit -y`
+
+          **Scripts included**
+
+          Run `.\scripts\<ScriptName>.ps1 -?` for per-script help.
+
+          ## What's Changed
+          "@
+          git log --oneline origin/main..HEAD | while read line; do
+            echo "  - $line"
+          done >> changelog.md
+          echo "$body" > release_body.md
+          cat release_body.md changelog.md > body.md
+          echo "BODY=$(cat body.md | tr '\n' ' ')" >> $GITHUB_OUTPUT
+        shell: bash
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: ps-it-toolkit-*.zip
+          body_path: body.md
+          draft: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
