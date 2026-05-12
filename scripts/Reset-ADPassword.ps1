@@ -125,7 +125,10 @@ try {
         Write-Log "Password set on AD account '$resolvedAccount'." "OK"
     } else {
         # Local account — use Set-LocalUser
-        Set-LocalUser -Name $resolvedAccount -Password (ConvertTo-SecureString $NewPassword -AsPlainText -Force) -ErrorAction Stop
+        $secPass = New-Object System.Security.SecureString
+        $NewPassword.ToCharArray() | ForEach-Object { $secPass.AppendChar($_) }
+        $secPass.MakeReadOnly()
+        Set-LocalUser -Name $resolvedAccount -Password $secPass -ErrorAction Stop
         Write-Log "Password set on local account '$resolvedAccount'." "OK"
     }
 } catch {
